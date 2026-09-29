@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AegisHer AI | Smart Women Safety & Urban Inclusion Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Light Mode Default (Clean White Design) */
+            --bg-body: #ffffff;
+            --bg-subtle: #f8fafc;
+            --surface: #ffffff;
+            --surface-hover: #f1f5f9;
+            --border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #eef2ff;
+            --danger: #e11d48;
+            --danger-light: #ffe4e6;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 12px 32px -4px rgba(15, 23, 42, 0.12);
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Theme */
+            --bg-body: #090d16;
+            --bg-subtle: #0f172a;
+            --surface: #151c2c;
+            --surface-hover: #1e293b;
+            --border: #222f46;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-light: rgba(99, 102, 241, 0.15);
+            --danger: #f43f5e;
+            --danger-light: rgba(244, 63, 94, 0.15);
+            --success: #10b981;
+            --success-light: rgba(16, 185, 129, 0.15);
+            --warning: #fbbf24;
+            --warning-light: rgba(251, 191, 36, 0.15);
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 12px 32px -4px rgba(0, 0, 0, 0.6);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: var(--transition);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            padding-bottom: 4rem;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* --- HEADER & NAVBAR --- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            transition: var(--transition);
+        }
+
+        [data-theme="dark"] header {
+            background: rgba(9, 13, 22, 0.85);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+        }
+
+        .brand-name { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; }
+        .brand-tag { font-size: 0.75rem; color: var(--primary); font-weight: 700; text-transform: uppercase; }
+
+        .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+        /* Dark / Light Mode Toggle Switch */
+        .theme-toggle {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            padding: 0.5rem 0.9rem;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover { background: var(--surface-hover); }
+
+        /* Status Badge */
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--success-light);
+            color: var(--success);
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+            70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 3.5rem 0 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 0.35rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Hero Action Controls */
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.85rem 1.75rem;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        .btn-danger {
+            background: var(--danger);
+            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.3);
+        }
+        .btn-danger:hover { background: #be123c; }
+
+        .btn-outline {
+            background: var(--surface);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-outline:hover { background: var(--surface-hover); }
+
+        /* --- DASHBOARD GRID --- */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .card:hover { border-color: var(--primary); }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* --- MODULE 1: AI ROUTE NAVIGATION ENGINE --- */
+        .col-8 { grid-column: span 8; }
+        .col-4 { grid-column: span 4; }
+        .col-12 { grid-column: span 12; }
+
+        @media (max-width: 900px) {
+            .col-8, .col-4 { grid-column: span 12; }
+            .hero h1 { font-size: 2rem; }
+        }
+
+        .route-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .route-inputs { grid-template-columns: 1fr; }
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        input:focus { border-color: var(--primary); background: var(--surface); }
+
+        .route-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) { .route-cards { grid-template-columns: 1fr; } }
+
+        .route-option {
+            background: var(--bg-subtle);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .route-option.active {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .route-score {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .tag-safe { background: var(--success-light); color: var(--success); }
+        .tag-risk { background: var(--warning-light); color: var(--warning); }
+
+        /* --- MODULE 2: LIVE SOS COCKPIT --- */
+        .sos-box {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: linear-gradient(180deg, var(--surface) 0%, var(--bg-subtle) 100%);
+        }
+
+        .sos-trigger-btn {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f43f5e, #be123c);
+            color: white;
+            border: 6px solid var(--danger-light);
+            font-size: 1.25rem;
+            font-weight: 800;
+            cursor: pointer;
+            margin: 1rem auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(225, 29, 72, 0.4);
+            transition: var(--transition);
+        }
+
+        .sos-trigger-btn:hover { transform: scale(1.05); }
+
+        /* --- MODULE 3: SAFE HAVEN COMMUNITY NETWORK --- */
+        .haven-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        .haven-card {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .haven-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* --- MODULE 4: PITCH DECK & IMPACT CALCULATOR (JUDGES SECTION) --- */
+        .pitch-container {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--primary-light) 100%);
+            border: 1px solid var(--primary);
+        }
+
+        .calculator-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            align-items: center;
+        }
+
+        @media (max-width: 700px) { .calculator-box { grid-template-columns: 1fr; } }
+
+        .calc-output {
+            background: var(--surface);
+            padding: 1.25rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        .calc-metric {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        /* Telemetry Log Table */
+        table { width: 100%; border-collapse: collapse; margin-top: 0.75rem; }
+        th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+        th { color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR HEADER -->
+    <header>
+        <div class="container nav-wrapper">
+            <a href="#" class="brand">
+                <div class="brand-logo">🛡️</div>
+                <div>
+                    <div class="brand-name">AegisHer <span class="brand-tag">AI</span></div>
+                </div>
+            </a>
+
+            <div class="nav-right">
+                <div class="status-badge">
+                    <span class="pulse-dot"></span>
+                    <span>Safety Mesh Active</span>
+                </div>
+
+                <!-- LIGHT / DARK MODE TOGGLE BUTTON -->
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+                    <span id="themeIcon">🌙</span>
+                    <span id="themeText">Dark</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-pill">✨ Next-Gen Women Safety & Urban Mobility Engine</div>
+            <h1>Empowering Safe Mobility Through Predictive AI</h1>
+            <p>Combining real-time safe route navigation, automated incident detection, and community SafeHaven response networks to create fear-free cities.</p>
+            
+            <div class="hero-actions">
+                <button class="btn btn-danger" onclick="triggerSOS()">
+                    <span>🚨</span> Simulate Emergency SOS
+                </button>
+                <button class="btn btn-outline" onclick="scrollToJudgeSection()">
+                    <span>🏆</span> Pitch Deck & Impact Model
+                </button>
+            </div>
+        </section>
+
+        <!-- MAIN DASHBOARD GRID -->
+        <div class="grid-layout">
+            
+            <!-- MODULE 1: AI SAFE ROUTE NAVIGATOR -->
+            <div class="card col-8">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span>🧭</span> Predictive Safe Route Navigation Engine
+                    </div>
+                    <span class="tag tag-safe">Live Street Analytics</span>
+                </div>
+
+                <div class="route-inputs">
+                    <input type="text" id="startLoc" value="Connaught Place, Central Hub">
+                    <input type="text" id="endLoc" value="Hauz Khas Enclave">
+                    <button class="btn" onclick="calculateRoute()">Calculate Route</button>
+                </div>
+
+                <div class="route-cards">
+                    <!-- Recommended Route -->
+                    <div class="route-option active" id="routeA" onclick="selectRoute('A')">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="tag tag-safe">Aegis AI Recommended</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">18 Mins • 6.2 km</span>
+                        </div>
+                        <div class="route-score">
+                            <span>98.4%</span>
+                            <span style="font-size: 0.85rem; font-weight: 500; color: var(--success);">Safety Index</span>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">
+                            ✓ 100% Streetlight Coverage<br>
+                            ✓ 4 Verified SafeHaven Hubs on route<br>
+                            ✓ High Active Footfall
+                        </p>
+                    </div>
+
+                    <!-- Standard Route -->
+                    <div class="route-option" id="routeB" onclick="selectRoute('B')">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="tag tag-risk">Shortest (Unmonitored)</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted);">14 Mins • 5.1 km</span>
+                        </div>
+                        <div class="route-score" style="color: var(--warning);">
+                            <span>61.2%</span>
+                            <span style="font-size: 0.85rem; font-weight: 500; color: var(--warning);">Safety Index</span>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">
+                            ⚠️ Poor Street Lighting detected<br>
+                            ⚠️ Low Community Presence<br>
+                            ⚠️ Elevated Crime Incident History
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODULE 2: EMERGENCY SOS COCKPIT -->
+            <div class="card col-4 sos-box">
+                <div class="card-title" style="justify-content: center; margin-bottom: 0.5rem;">
+                    <span>⚡</span> One-Touch SOS Dispatch
+                </div>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Broadcasting GPS location to emergency responders & trusted contacts.</p>
+
+                <button class="sos-trigger-btn" id="sosBtn" onclick="triggerSOS()">
+                    <span>SOS</span>
+                    <span style="font-size: 0.65rem; opacity: 0.9;">TAP TO DEMO</span>
+                </button>
+
+                <div id="sosAlertBox" style="display: none; background: var(--danger-light); color: var(--danger); padding: 0.75rem; border-radius: 8px; font-weight: 700; font-size: 0.85rem;">
+                    🚨 SOS BROADCAST LIVE: Dispatching Police & Contacts...
+                </div>
+            </div>
+
+            <!-- MODULE 3: SAFEHAVEN COMMUNITY MESH -->
+            <div class="card col-12">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span>🏬</span> Verified SafeHaven Urban Mesh (Nearby 1.5 km)
+                    </div>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">24/7 Monitored Safe Havens</span>
+                </div>
+
+                <div 
